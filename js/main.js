@@ -1,5 +1,5 @@
 'use strict';
-
+console.log('hola!');
 
 /* Elementos que usamos en el HTML */
 const newFormElement = document.querySelector('.js-new-form');
@@ -87,12 +87,22 @@ function addNewKitten(event) {
     const valueDesc = inputDesc.value;
     const valuePhoto = inputPhoto.value;
     const valueName = inputName.value;
+    const valueRace = inputRace.value;
+    const newKittenDataObject = {
+        image: valuePhoto,
+        name: valueName,
+        desc: valueDesc,
+        race: valueRace,
+    };
+    kittenDataList.push(newKittenDataObject);
+    renderKittenList(kittenDataList);
     if (valueDesc === "" || valuePhoto === "" || valueName === "") {
         labelMessageError.innerHTML = "¡Uy! parece que has olvidado algo";
     }
-    else if (valueDesc !== "" && valuePhoto !== "" && valueName !== "") {
+     else if (valueDesc !== "" && valuePhoto !== "" && valueName !== "") {
         labelMessageError.innerHTML = "";
-    }
+    } 
+    // valueDesc.reset();
 }
 //Cancelar la búsqueda de un gatito
 function cancelNewKitten(event) {
@@ -123,7 +133,10 @@ linkNewFormElememt.addEventListener("click", handleClickNewCatForm);
 searchButton.addEventListener("click", filterKitten);
 buttonAdd.addEventListener("click", addNewKitten);
 buttonCancelForm.addEventListener("click", cancelNewKitten);
+buttonAdd.addEventListener('reset', addNewKitten);
 
+//  02 06 2023 
+// Escuchar evento click de Añadir: buttonAdd
 
 
 
