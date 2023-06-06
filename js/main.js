@@ -18,7 +18,7 @@ const input_search_race = document.querySelector('.js_in_search_race');
 
 
 //Objetos con cada gatito
-const kittenData_1 = {
+/* const kittenData_1 = {
     image: "https://dev.adalab.es/gato-siames.webp",
     name: "Anastacio",
     desc: "Porte elegante, su patrón de color tan característico y sus ojos de un azul intenso, pero su historia se remonta a Asía al menos hace 500 años, donde tuvo su origen muy posiblemente.",
@@ -35,9 +35,20 @@ const kittenData_3 = {
     name: "Cielo",
     desc: " Tienen la cabeza cuadrada y los ojos simétricos, por lo que su bella mirada se ha convertido en una de sus señas de identidad. Sus ojos son grandes y las orejas resultan largas y en punta.",
     race: "Maine Coon",
-};
+}; */
 
-const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
+let kittenDataList = [];
+
+// VARIABLES PARA PETICIONES AL SERVIDOR
+const GITHUB_USER = 'MiriamPaternain';
+const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
+
+fetch(SERVER_URL)
+    .then((response) => response.json())
+    .then((data) => {
+        kittenDataList = data.results;
+        renderKittenList(kittenDataList);
+    })
 
 //Funciones
 function renderKitten(kittenData) {
@@ -60,8 +71,9 @@ function renderKitten(kittenData) {
 
 function renderKittenList(kittenDataList) {
     listElement.innerHTML = "";
+        // let i = 0; i < kittenDataList.length; i++
     for (const kittenItem of kittenDataList) {
-        listElement.innerHTML += renderKitten(kittenItem);
+        listElement.innerHTML += renderKitten(kittenItem); //kittenDataList[i]
     }
 }
 
@@ -147,6 +159,7 @@ buttonCancelForm.addEventListener("click", cancelNewKitten);
 //05 06 2023
 // filtrar
 
-
+// 06 06 2023
+// Peticiones al servidor
 
 
