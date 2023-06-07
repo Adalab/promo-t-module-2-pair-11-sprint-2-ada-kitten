@@ -116,8 +116,7 @@ function addNewKitten(event) {
         desc: valueDesc,
         race: valueRace,
     };
-    kittenDataList.push(newKittenDataObject);
-    renderKittenList(kittenDataList);
+    
     if (valueDesc === "" || valuePhoto === "" || valueName === "") {
         labelMessageError.innerHTML = "¡Uy! parece que has olvidado algo";
     }
@@ -125,10 +124,35 @@ function addNewKitten(event) {
         labelMessageError.innerHTML = "";
     } 
     const resetValues = () => {inputDesc.value = ""; inputPhoto.value=""; inputName.value=""; inputRace.value=""; }
-    resetValues();
-    hideNewCatForm();
+    
+
+    fetch(`https://dev.adalab.es/api/kittens/${GITHUB_USER}`, {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(newKittenDataObject),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.success) {
+      //Completa y/o modifica el código:
+      //Agrega el nuevo gatito al listado
+      kittenDataList.push(newKittenDataObject);
+      renderKittenList(kittenDataList);
+      //Guarda el listado actualizado en el local stoarge
+      localStorage.setItem('kittensList',JSON.stringify(kittenDataList));
+      //Visualiza nuevamente el listado de gatitos
+      //Limpia los valores de cada input
+      resetValues();
+      hideNewCatForm();
+    } else {
+      //muestra un mensaje de error.
+     
+      console.log('Ha habido un error.');
+    }
+  });
     // valueDesc.reset();
 }
+
 //Cancelar la búsqueda de un gatito
 function cancelNewKitten(event) {
     event.preventDefault();
