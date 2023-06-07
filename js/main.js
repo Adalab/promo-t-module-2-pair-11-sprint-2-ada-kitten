@@ -43,12 +43,22 @@ let kittenDataList = [];
 const GITHUB_USER = 'MiriamPaternain';
 const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
+ const kittenListStored = JSON.parse(localStorage.getItem('kittensList'));
+
+if(kittenListStored){
+  kittenDataList = kittenListStored;
+} else {
 fetch(SERVER_URL)
     .then((response) => response.json())
     .then((data) => {
         kittenDataList = data.results;
         renderKittenList(kittenDataList);
+        localStorage.setItem('kittensList',JSON.stringify(kittenDataList));
     })
+}
+
+
+   
 
 //Funciones
 function renderKitten(kittenData) {
@@ -162,4 +172,5 @@ buttonCancelForm.addEventListener("click", cancelNewKitten);
 // 06 06 2023
 // Peticiones al servidor
 
-
+// 07 06 2023
+// localStorage
