@@ -43,7 +43,7 @@ let kittenDataList = [];
 const GITHUB_USER = 'MiriamPaternain';
 const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
- const kittenListStored = JSON.parse(localStorage.getItem('kittensList'));
+const kittenListStored = JSON.parse(localStorage.getItem('kittensList'));
 
 if(kittenListStored){
   kittenDataList = kittenListStored;
@@ -57,12 +57,39 @@ fetch(SERVER_URL)
     })
 }
 
-
-   
-
 //Funciones
 function renderKitten(kittenData) {
-    const kitten = `<li class="card">
+    const liElement = document.createElement('li');
+    liElement.classList.add('card');
+    const article = document.createElement('article');
+    const kittenImg = document.createElement('img');
+    const kittenName = document.createElement('h3');
+    const kittenRace = document.createElement('h3');
+    const kittenDesc = document.createElement('p');
+    liElement.appendChild(article);
+    // IMAGEN
+    article.appendChild(kittenImg);
+    kittenImg.classList.add('card_img');
+    kittenImg.src = kittenData.image;
+    kittenImg.alt = 'gatito';
+    // NOMBRE
+    article.appendChild(kittenName);
+    kittenName.classList.add('card_title');
+    const kittenNameText = document.createTextNode(kittenData.name);
+    kittenName.appendChild(kittenNameText);
+    // RAZA
+    article.appendChild(kittenRace);
+    kittenRace.classList.add('card_race');
+    const kittenRaceText = document.createTextNode(kittenData.race);
+    kittenRace.appendChild(kittenRaceText);
+    // DESC
+    article.appendChild(kittenDesc);
+    kittenDesc.classList.add('card_description');
+    const kittenDescText = document.createTextNode(kittenData.desc);
+    kittenDesc.appendChild(kittenDescText);
+    console.log(liElement);
+    return liElement;
+    /* const kitten = `<li class="card">
     <article>
       <img
         class="card_img"
@@ -75,15 +102,16 @@ function renderKitten(kittenData) {
       ${kittenData.desc}
       </p>
     </article>
-    </li>`;
-    return kitten;
+    </li>`; 
+    return kitten;*/
 }
 
 function renderKittenList(kittenDataList) {
     listElement.innerHTML = "";
         // let i = 0; i < kittenDataList.length; i++
     for (const kittenItem of kittenDataList) {
-        listElement.innerHTML += renderKitten(kittenItem); //kittenDataList[i]
+        //listElement.innerHTML += renderKitten(kittenItem); //kittenDataList[i]
+        listElement.appendChild(renderKitten(kittenItem));
     }
 }
 
@@ -94,7 +122,6 @@ function showNewCatForm() {
 function hideNewCatForm() {
     newFormElement.classList.add('collapsed');
 }
-
 function handleClickNewCatForm(event) {
     event.preventDefault();
     if (newFormElement.classList.contains('collapsed')) {
@@ -103,6 +130,7 @@ function handleClickNewCatForm(event) {
         hideNewCatForm();
     }
 }
+
 //Adicionar nuevo gatito
 function addNewKitten(event) {
     event.preventDefault();
@@ -172,8 +200,6 @@ function filterKitten(event) {
     const filterKittenSearch = kittenDataList.filter ((item) => item.desc.includes(descrSearchText) )
     .filter ((item) => item.race.includes(raceSearchText));
     renderKittenList(filterKittenSearch);
-
-    
 }
 
 
@@ -198,3 +224,6 @@ buttonCancelForm.addEventListener("click", cancelNewKitten);
 
 // 07 06 2023
 // localStorage
+
+// 08 06 2023
+// Cambiar a DOM Avanzado
